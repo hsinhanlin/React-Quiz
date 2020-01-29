@@ -2,6 +2,7 @@ import React from 'react'
 import Question from '../components/Quesion'
 import { getQuiz } from '../utils/api'
 import SaveScoreForm from './SaveScoreForm'
+import HUD from './HUD'
 
 export default function Game({ history }) {
     const [questions, setQuestion] = React.useState([])
@@ -61,10 +62,13 @@ export default function Game({ history }) {
         <>
             {loading && !done && <div id="loader"></div>}
             {!loading && !done && currentQuestion && (
-                <Question
-                    question={currentQuestion}
-                    changeQuestion={changeQuestion}
-                />
+                <>
+                    <HUD score={score} questionNumber={questionNumber} />
+                    <Question
+                        question={currentQuestion}
+                        changeQuestion={changeQuestion}
+                    />
+                </>
             )
             }
             {done && <SaveScoreForm score={score} scoreSaved={scoreSaved} />}
