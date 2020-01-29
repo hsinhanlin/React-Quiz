@@ -1,54 +1,73 @@
 import React from 'react'
 import Question from '../components/Quesion'
 import { getQuiz } from '../utils/api'
+import SaveScoreForm from './SaveScoreForm'
 
-const Game = () => {
+export default function Game({ history }) {
+    const [questions, setQuestion] = React.useState([])
     const [currentQuestion, setCurrentQuestion] = React.useState(null)
-    // const [questions, setQuestion] = React.useState(null)
-
+    const [loading, setLoading] = React.useState(true);
+    const [score, setScore] = React.useState(0);
+    const [questionNumber, setQuestionNumber] = React.useState(0);
+    const [done, setDone] = React.useState(false);
 
     React.useEffect(() => {
-        let mounted = new AbortController();
-        let questions = [];
-
-
-        const getData = async () => {
-            try {
-                const data = await getQuiz()
-                questions = data;
-                changeQuestion()
-
-            } catch (e) {
-                console.error(e)
-            }
-            return questions
-        }
-        const changeQuestion = () => {
-            const questionIndex = Math.floor(
-                Math.random() * questions.length)
-            setCurrentQuestion(questions[questionIndex])
-
-            // remove question
-            const remainingQuestions = [...questions]
-            remainingQuestions.splice(questionIndex, 1)
-            questions = remainingQuestions
-        }
-
-        getData()
-        return () => mounted.abort()
+        getQuiz()
+            .then(setQuestion)
+            .catch(console.err)
     }, [])
 
+    const scoreSaved = () => {
+        history.push('/')
+    }
+
+    const changeQuestion = React.useCallback((bouns = 0) => {
+        if (questions.length === 0) {
+            setDone(true)
+            return setScore(score + bouns)
+        }
+
+        const questionIndex = Math.floor(
+            Math.random() * questions.length)
+
+        const currentQuestion = questions[questionIndex]
+        const remainQuestions = [...questions]
+        // remove question
+        remainQuestions.splice(questionIndex, 1)
+
+        setQuestion(remainQuestions)
+        setCurrentQuestion(currentQuestion)
+        setLoading(false)
+        setScore(score + bouns)
+        setQuestionNumber(questionNumber + 1)
+    }, [
+        questionNumber,
+        score,
+        questions,
+        setQuestion,
+        setLoading,
+        setCurrentQuestion,
+        setQuestionNumber
+    ])
+
+    React.useEffect(() => {
+        if (!currentQuestion && questions.length) {
+            changeQuestion()
+        }
+
+    }, [currentQuestion, questions, changeQuestion])
 
     return (
         <>
-            {currentQuestion
-                ?
-                <Question question={currentQuestion} />
-                :
-                <div id="loader"></div>
+            {loading && !done && <div id="loader"></div>}
+            {!loading && !done && currentQuestion && (
+                <Question
+                    question={currentQuestion}
+                    changeQuestion={changeQuestion}
+                />
+            )
             }
+            {done && <SaveScoreForm score={score} scoreSaved={scoreSaved} />}
         </>
     )
 }
-
-export default Game
