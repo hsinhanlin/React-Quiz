@@ -37,7 +37,7 @@ const HighScores = () => {
                     <h1>High Scores</h1>
                     <div className="highScoreList">
                         {scores.map(record => (
-                            <li key={MutationRecord.key} className="hight-score">
+                            <li key={MutationRecord.key} className="high-score">
                                 {record.name} - {record.score}
                             </li>
                         ))}

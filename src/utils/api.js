@@ -1,5 +1,5 @@
 export const getQuiz = async (
-    amout = 10,
+    amout = 1,
     category = 18,
     difficulty = 'medium', type = 'multiple'
 ) => {

@@ -11,7 +11,6 @@ export default function Game({ history }) {
     const [score, setScore] = React.useState(0);
     const [questionNumber, setQuestionNumber] = React.useState(0);
     const [done, setDone] = React.useState(false);
-    console.log(process.env)
 
     React.useEffect(() => {
         getQuiz()
