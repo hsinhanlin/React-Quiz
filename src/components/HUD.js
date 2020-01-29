@@ -6,7 +6,7 @@ const HUD = ({ score, questionNumber }) => {
         <div id="hud">
             <div className="hud-item">
                 <p className="hud-prefix">Quiz {questionNumber}</p>
-                <ProgressBar max={10} current={questionNumber} />
+                <ProgressBar max={5} current={questionNumber} />
             </div>
             <div className="hud-item">
                 <p className="hud-prefix">Score</p>

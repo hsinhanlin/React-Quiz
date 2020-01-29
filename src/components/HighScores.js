@@ -2,7 +2,7 @@ import React from 'react'
 import { useFirebase } from './Firebase/FirebaseContext';
 import { Link } from 'react-router-dom'
 
-function HighScores({ history }) {
+const HighScores = ({ history }) => {
     const firebase = useFirebase()
     const [scores, setScores] = React.useState([])
     const [loading, setLoading] = React.useState(true)

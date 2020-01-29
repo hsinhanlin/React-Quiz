@@ -14,7 +14,7 @@ export default function Game({ history }) {
 
     React.useEffect(() => {
         getQuiz()
-            .then(setQuestion)
+            .then(questions => setQuestion(questions))
             .catch(console.err)
     }, [])
 
@@ -55,7 +55,6 @@ export default function Game({ history }) {
         if (!currentQuestion && questions.length) {
             changeQuestion()
         }
-
     }, [currentQuestion, questions, changeQuestion])
 
     return (

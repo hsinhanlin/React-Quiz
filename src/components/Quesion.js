@@ -20,7 +20,7 @@ const Quesion = ({ question, changeQuestion }) => {
             setSleectedAnswer(-1)
             setAnswering(false)
             changeQuestion(bouns)
-        }, 1000)
+        }, 500)
 
     }
 
