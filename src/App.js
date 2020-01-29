@@ -6,6 +6,7 @@ import HighScores from './components/HighScores'
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
+
   return (
     <Router>
       <div className="container">

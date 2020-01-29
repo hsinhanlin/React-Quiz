@@ -1,9 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useFirebase } from './Firebase/FirebaseContext';
 
 
 const SaveScoreForm = ({ score, scoreSaved }) => {
     const [username, setUsername] = React.useState('')
+    const firebase = useFirebase();
 
     const handleChange = e => {
         e.persist()
@@ -16,8 +18,13 @@ const SaveScoreForm = ({ score, scoreSaved }) => {
             name: username,
             score
         }
-        console.log(record)
+
+        firebase.scores().push(record, () => {
+            scoreSaved();
+        });
     }
+
+
     return (
         <div className="container">
             <form onSubmit={handleSubmit}>
